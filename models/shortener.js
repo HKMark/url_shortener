@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const urlSchema = new Schema({
-  origin_link: {
+  name: {
     type: String,
     required: true
   },
-  short_link: {
+  short_links: {
     type: String,
     required: true
   }
 })
-module.exports = mongoose.model('URL', todoSchema)
+module.exports = mongoose.model('Urls', urlSchema)
