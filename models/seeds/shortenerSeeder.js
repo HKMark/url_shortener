@@ -12,7 +12,7 @@ db.on('error', () => {
 })
 db.once('open', () => {
   console.log('mongodb connected!')
-  const name = "https://www.google.com.hk/"
+  const original_links = "https://www.google.com.hk/"
   
   const generateRandomString = (num) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -28,7 +28,7 @@ db.once('open', () => {
   const short_links = host + "/" + RandomString
   
   Urls.create({ 
-    name: name,
+    original_links: original_links,
     short_links: short_links
    })
   console.log('done')
