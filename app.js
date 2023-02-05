@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const Urls = require('./models/shortener')
+const alert = require('alert')
 
 // require dotenv if NODE_ENV is not production
 if (process.env.NODE_ENV !== 'production') {
@@ -34,11 +35,14 @@ app.get('/', (req, res) => {
 })
 
 app.post('/shorten', (req, res) => {
-  const originalLinks = req.body.name
-
   // pop-up alert if no URL inputted
+  if (!req.body.name) {
+    alert("Please enter the correct link !")
+    return res.redirect('/')
+  }
 
-  // Check whether the original link is already in the database
+  const originalLinks = req.body.name
+  // check whether the original link is already in the database
 
   // generate the short links
   const generateRandomString = (num) => {
