@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/shorten', (req, res) => {
-  const original_links = req.body.name
+  const originalLinks = req.body.name
 
   // pop-up alert if no URL inputted
 
@@ -52,12 +52,14 @@ app.post('/shorten', (req, res) => {
   }
   const RandomString = generateRandomString(5)
   const host = req.get('origin')
-  const short_links = host + "/" + RandomString
+  const shortLinks = host + "/" + RandomString
   return Urls.create({ 
-    original_links: original_links,
-    short_links: short_links
+    original_links: originalLinks,
+    short_links: shortLinks
   })
-    .then(() => res.redirect('/'))
+    .then(() => {
+      res.render('shorten', { shortLinks })
+    })
     .catch(error => console.log(error))
 })
 
