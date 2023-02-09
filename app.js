@@ -41,30 +41,39 @@ app.post('/shorten', (req, res) => {
     return res.redirect('/')
   }
 
-  const originalLinks = req.body.name
   // check whether the original link is already in the database
-
-  // generate the short links
-  const generateRandomString = (num) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let result = ''
-    const charactersLength = characters.length
-    for (let i = 0; i < num; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-    return result
-  }
-  const RandomString = generateRandomString(5)
-  const host = req.get('origin')
-  const shortLinks = host + "/" + RandomString
-  return Urls.create({ 
-    original_links: originalLinks,
-    short_links: shortLinks
-  })
-    .then(() => {
-      res.render('shorten', { shortLinks })
+  const originalLinks = req.body.name
+  Urls.find({})
+    .lean()
+    .then(urlsData => {
+      const filterUrlsData = urlsData.filter(data => {
+        return data.original_links.includes(originalLinks)
+      })
+      if (filterUrlsData.length === 0) {
+        // generate the new short links
+        const generateRandomString = (num) => {
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+          let result = ''
+          const charactersLength = characters.length
+          for (let i = 0; i < num; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength))
+          }
+          return result
+        }
+        const RandomString = generateRandomString(5)
+        const host = req.get('origin')
+        const shortLinks = host + "/" + RandomString
+        return Urls.create({
+          original_links: originalLinks,
+          short_links: shortLinks
+        })
+          .then(() => {
+            res.render('newshorten', { shortLinks })
+          })
+      }
+      res.render('shorten', { urlsData: filterUrlsData })
     })
-    .catch(error => console.log(error))
+  .catch(error => console.log(error))
 })
 
 app.listen(3000, () => {
