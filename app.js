@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const Urls = require('./models/shortener')
 const alert = require('alert')
+const validUrl = require('valid-url')
 
 // require dotenv if NODE_ENV is not production
 if (process.env.NODE_ENV !== 'production') {
@@ -35,14 +36,15 @@ app.get('/', (req, res) => {
 })
 
 app.post('/shorten', (req, res) => {
+  const originalLinks = req.body.name
+  
   // pop-up alert if no URL inputted
-  if (!req.body.name) {
+  if (!originalLinks || !validUrl.isUri(originalLinks)) {
     alert("Please enter the correct link !")
     return res.redirect('/')
   }
 
   // check whether the original link is already in the database
-  const originalLinks = req.body.name
   Urls.find({})
     .lean()
     .then(urlsData => {
@@ -70,6 +72,7 @@ app.post('/shorten', (req, res) => {
           .then(() => {
             res.render('newshorten', { shortLinks })
           })
+          .catch(error => console.log(error))
       }
       res.render('shorten', { urlsData: filterUrlsData })
     })
