@@ -36,8 +36,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/shorten', (req, res) => {
-  const input = req.body.name
-  const originalLinks = input.trim()
+  const originalLinks = req.body.name
   
   // pop-up alert if no URL inputted
   if (!originalLinks || !validUrl.isWebUri(originalLinks)) {
@@ -68,7 +67,8 @@ app.post('/shorten', (req, res) => {
         const shortLinks = host + "/" + RandomString
         return Urls.create({
           original_links: originalLinks,
-          short_links: shortLinks
+          short_links_random_string: RandomString,
+          short_urls: shortLinks
         })
           .then(() => {
             res.render('newshorten', { shortLinks })
@@ -77,6 +77,18 @@ app.post('/shorten', (req, res) => {
       res.render('shorten', { urlsData: filterUrlsData })
     })
     .catch(error => console.log(error))
+})
+
+app.get("/:shortLinks", (req, res) => {
+  const { shortLinks } = req.params
+  Urls.findOne({ short_links_random_string: shortLinks })
+    .then(urlsData => {
+      if (!urlsData) {
+        return res.render('index')
+      }
+      res.redirect(urlsData.original_links)
+    })
+    .catch(error => console.error(error))
 })
 
 app.listen(3000, () => {

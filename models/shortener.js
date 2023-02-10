@@ -5,7 +5,11 @@ const urlSchema = new Schema({
     type: String,
     required: true
   },
-  short_links: {
+  short_links_random_string: {
+    type: String,
+    required: true
+  },
+  short_urls: {
     type: String,
     required: true
   }
