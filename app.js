@@ -36,16 +36,17 @@ app.get('/', (req, res) => {
 })
 
 app.post('/shorten', (req, res) => {
-  const originalLinks = req.body.name
+  const input = req.body.name
+  const originalLinks = input.trim()
   
   // pop-up alert if no URL inputted
-  if (!originalLinks || !validUrl.isUri(originalLinks)) {
-    alert("Please enter the correct link !")
+  if (!originalLinks || !validUrl.isWebUri(originalLinks)) {
+    alert("Please enter the correct URL.")
     return res.redirect('/')
   }
 
   // check whether the original link is already in the database
-  Urls.find({})
+  Urls.find({ original_links: originalLinks })
     .lean()
     .then(urlsData => {
       const filterUrlsData = urlsData.filter(data => {
@@ -72,11 +73,10 @@ app.post('/shorten', (req, res) => {
           .then(() => {
             res.render('newshorten', { shortLinks })
           })
-          .catch(error => console.log(error))
       }
       res.render('shorten', { urlsData: filterUrlsData })
     })
-  .catch(error => console.log(error))
+    .catch(error => console.log(error))
 })
 
 app.listen(3000, () => {

@@ -3,6 +3,6 @@
   alt="index_image">
 <h3>Success! Please use this link:</h3>
 {{#each urlsData}}
-<a href="{{ this.short_links }}">{{ this.short_links }}</a>
+<a href="{{ this.short_links }}" id='target_txt'>{{ this.short_links }}</a>
 {{/each}}
-  <button type="btn">Copy</button>
+<button type="btn" id="copyBtn" onClick="copyTxt()">Copy</button>

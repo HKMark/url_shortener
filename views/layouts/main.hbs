@@ -10,4 +10,13 @@
   {{{ body }}}
 </body>
 
+<script>
+  const targeTxt = document.querySelector('#target_txt')
+  const copyBtn = document.querySelector('#copyBtn')
+
+  function copyTxt() {
+    navigator.clipboard.writeText(target_txt.innerText)
+  }
+</script>
+
 </html>
