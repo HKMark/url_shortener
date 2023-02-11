@@ -2,9 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+
 const Urls = require('./models/shortener')
 const alert = require('alert')
 const validUrl = require('valid-url')
+
+const generateRandomString = require('./utils/generateRandomString')
 
 // require dotenv if NODE_ENV is not production
 if (process.env.NODE_ENV !== 'production') {
@@ -12,6 +15,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const app = express()
+const port = 3000
+
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -45,36 +50,23 @@ app.post('/shorten', (req, res) => {
   }
 
   // check whether the original link is already in the database
-  Urls.find({ original_links: originalLinks })
-    .lean()
+  Urls.findOne({ original_links: originalLinks })
     .then(urlsData => {
-      const filterUrlsData = urlsData.filter(data => {
-        return data.original_links.includes(originalLinks)
-      })
-      if (filterUrlsData.length === 0) {
+      if (!urlsData) {
         // generate the new short links
-        const generateRandomString = (num) => {
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-          let result = ''
-          const charactersLength = characters.length
-          for (let i = 0; i < num; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength))
-          }
-          return result
-        }
-        const RandomString = generateRandomString(5)
+        const randomString = generateRandomString(5)
         const host = req.get('origin')
-        const shortLinks = host + "/" + RandomString
+        const shortLinks = host + "/" + randomString
         return Urls.create({
           original_links: originalLinks,
-          short_links_random_string: RandomString,
+          short_links_random_string: randomString,
           short_urls: shortLinks
         })
           .then(() => {
-            res.render('newshorten', { shortLinks })
+            res.render('newShorten', { shortLinks })
           })
       }
-      res.render('shorten', { urlsData: filterUrlsData })
+      res.render('shorten', { urlsData })
     })
     .catch(error => console.log(error))
 })
@@ -84,6 +76,7 @@ app.get("/:shortLinks", (req, res) => {
   Urls.findOne({ short_links_random_string: shortLinks })
     .then(urlsData => {
       if (!urlsData) {
+        // render error page if can't found the url
         return res.render("error", {
           errorMsg: "Oops! Page Not Found",
           errorLink: req.headers.host + "/" + shortLinks,
@@ -94,6 +87,6 @@ app.get("/:shortLinks", (req, res) => {
     .catch(error => console.error(error))
 })
 
-app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000')
+app.listen(port, () => {
+  console.log(`App is running on http://localhost:${port}`)
 })
