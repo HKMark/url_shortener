@@ -84,7 +84,10 @@ app.get("/:shortLinks", (req, res) => {
   Urls.findOne({ short_links_random_string: shortLinks })
     .then(urlsData => {
       if (!urlsData) {
-        return res.render('index')
+        return res.render("error", {
+          errorMsg: "Oops! Page Not Found",
+          errorLink: req.headers.host + "/" + shortLinks,
+        })
       }
       res.redirect(urlsData.original_links)
     })
