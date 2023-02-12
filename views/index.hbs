@@ -1,7 +1,16 @@
-<h2>URL Shortener</h2>
-<img class="" src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png"
-  alt="index_image">
-<form action="/shorten" method="POST">
-  <input type="text" placeholder="Input URL here" name="name">
-  <button type="submit">Shorten</button>
-</form>
+<div class="container">
+  <h1 class="title text-center my-5">URL Shortener</h1>
+  <div class="jumbotron">
+    <div class="image-container">
+      <div class="image"></div>
+    </div>
+  </div>
+  <div class="form-container my-5">
+    <form action="/shorten" method="POST">
+      <input class="form-control me-2 border-secondary" type="text" placeholder="Input URL here" name="name">
+      <div class="btn-container d-flex justify-content-center my-3">
+        <button class="btn btn-outline-secondary btn-shorten" type="submit">Shorten</button>
+      </div>
+    </form>
+  </div>
+</div>

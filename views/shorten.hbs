@@ -1,8 +1,17 @@
-<h2>URL Shortener</h2>
-<img class="" src="https://assets-lighthouse.alphacamp.co/uploads/image/file/16716/ExportedContentImage_00.png"
-  alt="index_image">
-<h3>Success! Please use this link:</h3>
-{{#each urlsData}}
-<a href="{{ this.short_urls }}" id='target_txt'>{{ this.short_urls }}</a>
-{{/each}}
-<button type="btn" id="copyBtn" onClick="copyTxt()">Copy</button>
+<div class="container">
+  <h1 class="title text-center my-5">URL Shortener</h1>
+  <div class="jumbotron">
+    <div class="image-container">
+      <div class="image"></div>
+    </div>
+  </div>
+  <div class="form-container my-5">
+    <h2 class="subtitle text-center">
+      Success! Please use this link:
+      <a href="{{ urlsData.short_urls }}"  id='target_txt'>{{ urlsData.short_urls }}</a>
+    </h2>
+    <div class="btn-container d-flex justify-content-center my-3">
+      <button class="btn btn-outline-secondary btn-shorten" type="btn" id="copyBtn" onClick="copyTxt()">Copy</button>
+    </div>
+  </div>
+</div>

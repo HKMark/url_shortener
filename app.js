@@ -1,3 +1,4 @@
+// require packages used in the project
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
@@ -36,6 +37,10 @@ app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// setting static files
+app.use(express.static('public'))
+
+// routes setting
 app.get('/', (req, res) => {
   res.render('index')
 })
@@ -51,6 +56,7 @@ app.post('/shorten', (req, res) => {
 
   // check whether the original link is already in the database
   Urls.findOne({ original_links: originalLinks })
+    .lean()
     .then(urlsData => {
       if (!urlsData) {
         // generate the new short links
@@ -87,6 +93,7 @@ app.get("/:shortLinks", (req, res) => {
     .catch(error => console.error(error))
 })
 
+// start and listen on the Express server
 app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}`)
 })
