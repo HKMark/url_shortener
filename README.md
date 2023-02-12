@@ -4,6 +4,8 @@
 
 這是一個可以將網址縮短的短網址產生器
 
+
+
 ### 功能描述
 
 - 輸入網址並轉換為短連結
@@ -33,7 +35,7 @@ git clone https://github.com/HKMark/url_shortener.git
 2. 進入存放此專案的資料夾
 
 ```
-cd restaurant_list
+cd url_shortener
 ```
 
 3. 安裝 npm 套件
