@@ -20,9 +20,9 @@
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
 - [Mongoose](https://mongoosejs.com/)
-- [alert] (https://www.npmjs.com/package/alert)
-- [body-parser] (https://www.npmjs.com/package/body-parser)
-- [valid-url] (https://www.npmjs.com/package/valid-url)
+- [alert](https://www.npmjs.com/package/alert)
+- [body-parser](https://www.npmjs.com/package/body-parser)
+- [valid-url](https://www.npmjs.com/package/valid-url)
 
 ## 安裝與執行步驟
 
