@@ -4,32 +4,26 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
+const generateRandomString = require('../../utils/generateRandomString')
+
 mongoose.set('strictQuery', true)
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
+
 db.on('error', () => {
   console.log('mongodb error!')
 })
+
 db.once('open', () => {
   console.log('mongodb connected!')
-  const original_links = "https://www.google.com.hk/"
-  
-  const generateRandomString = (num) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let result = ''
-    const charactersLength = characters.length
-    for (let i = 0; i < num; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
-    return result
-  }
-  const RandomString = generateRandomString(5)
+  const originalLinks = "https://www.google.com.hk/"
+  const randomString = generateRandomString(5)
   const host = "http://localhost:3000"
-  const short_links = host + "/" + RandomString
-  
-  Urls.create({ 
-    original_links: original_links,
-    short_links: short_links
-   })
+  const shortLinks = host + "/" + randomString
+  Urls.create({
+          original_links: originalLinks,
+          short_links_random_string: randomString,
+          short_urls: shortLinks
+        })
   console.log('done')
 })
