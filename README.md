@@ -8,7 +8,7 @@
 
 - 輸入網址並轉換為短連結
 - 使用短連結瀏覽原始連結的網站
-- 一鍵複雜短連結
+- 一鍵複製短連結
 
 ![URL_Shortener](https://user-images.githubusercontent.com/32502651/218317075-520eb0a0-65f3-42be-8ee0-be3ab4d42d73.jpg)
 
