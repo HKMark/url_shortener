@@ -20,7 +20,6 @@
 - [Express-Handlebars](https://www.npmjs.com/package/express-handlebars)
 - [Nodemon](https://www.npmjs.com/package/nodemon)
 - [Mongoose](https://mongoosejs.com/)
-- [alert](https://www.npmjs.com/package/alert)
 - [body-parser](https://www.npmjs.com/package/body-parser)
 - [valid-url](https://www.npmjs.com/package/valid-url)
 
