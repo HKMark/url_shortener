@@ -5,7 +5,6 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 const Urls = require('./models/shortener')
-const alert = require('alert')
 const validUrl = require('valid-url')
 
 const generateRandomString = require('./utils/generateRandomString')
@@ -45,13 +44,19 @@ app.get('/', (req, res) => {
   res.render('index')
 })
 
+app.get('/show-alert', (req, res) => {
+  res.send(`<script>
+    alert("Please enter the correct URL.");
+    history.back();
+  </script>`)
+})
+
 app.post('/shorten', (req, res) => {
   const originalLinks = req.body.name
   
   // pop-up alert if no URL inputted
   if (!originalLinks || !validUrl.isWebUri(originalLinks)) {
-    alert("Please enter the correct URL.")
-    return res.redirect('/')
+    return res.redirect('/show-alert')
   }
 
   // check whether the original link is already in the database
